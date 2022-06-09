@@ -191,7 +191,7 @@
 
         toastr.options = {
             "positionClass": "toast-top-center",
-            "timeOut": "1000",
+            "timeOut": "2000",
             "preventDuplicates": true,
             "closeButton": true,
             "progressBar": true
@@ -283,8 +283,8 @@
                 if (nama == "") {
                     toastr.warning("Isi Nama Barang")
                     $("#nama").focus();
-                } else if (sales_price == "") {
-                    toastr.warning("Isi Sales Price")
+                } else if (sales_price == "" || sales_price == "" || sales_price == "0") {
+                    toastr.warning("Sales Price tidak boleh kosng atau 0")
                     $("#sales_price").focus();
                 } else if (id_satuan == "0") {
                     toastr.warning("Pilih Satuan")
