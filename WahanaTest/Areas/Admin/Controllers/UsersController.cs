@@ -86,8 +86,8 @@ namespace Penjualan.Areas.Admin.Controllers
 
                 model.created_by = dHelper.CurrentLoginUser();
 
-                var data = user.GetRow(model.created_by);
-                if (data == null)
+                var data = user.GetRow(model.username);
+                if (data == null || data.id == 0)
                 {
                     await user.Add(model);
                
