@@ -1007,17 +1007,8 @@
     <Content Include="fonts\ionicons.ttf" />
     <Content Include="fonts\ionicons.woff" />
     <Content Include="fonts\ionicons28b5.svg" />
-    <Content Include="Areas\Admin\Views\Setting\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\ToDo\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\ToDo\_FinishList.cshtml" />
-    <Content Include="Areas\Admin\Views\ToDo\_UnFinishList.cshtml" />
-    <Content Include="Areas\Admin\Views\ToDo\_CreateUpdate.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
     <Content Include="Areas\Admin\Views\NotAccess\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Inventory\_ListInventory.cshtml" />
     <Content Include="libman.json" />
-    <Content Include="Areas\Admin\Views\Inventory\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\_ListUser.cshtml" />
