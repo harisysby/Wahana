@@ -211,7 +211,6 @@
             var data = $('#tbUser').dataTable().fnGetData(row);
             Init();
 
-            $("#_popUp").modal({ backdrop: 'static' });
             $('#_title').text("Edit User");
 
             $("#username").val(data.username);
@@ -227,6 +226,7 @@
 
             $("#_saveBtn").removeClass("hidden");
             $("#_saveBtn").html("Update");
+            $("#_popUp").modal({ backdrop: 'static' });
             $('#_popUp').on('shown.bs.modal', function () {
                 $('#email').focus();
             })
@@ -238,7 +238,6 @@
             var data = $('#tbUser').dataTable().fnGetData(row);
             Init();
 
-            $("#_popUp").modal({ backdrop: 'static' });
             $('#_title').text("Hapus User");
 
             $("#username").val(data.username);
@@ -246,7 +245,7 @@
             $("#phone").val(data.phone);
 
             $("#_inputState").val("Delete");
-            $("#pass").adClass("hidden");
+            $("#pass").addClass("hidden");
 
             $("#username").attr("disabled", "disabled");
             $("#email").attr("disabled", "disabled");
@@ -254,6 +253,7 @@
 
             $("#_saveBtn").removeClass("hidden");
             $("#_saveBtn").html("Hapus");
+            $("#_popUp").modal({ backdrop: 'static' });
         });
 
         function ProsesData() {
