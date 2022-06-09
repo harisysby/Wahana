@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "select2@4.0.13",
+      "destination": "scripts/select2/"
+    },
+    {
+      "library": "toastr.js@2.1.4",
+      "destination": "scripts/toastr.js/"
+    }
+  ]
+}

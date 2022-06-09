@@ -1,0 +1,68 @@
+﻿@model Penjualan.Helper.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<style>
+    body {
+        /*background-color: #f9fafb;*/
+        /*font-family: 'Open Sans', sans-serif;*/
+        background-color: #222D32;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .login-box-body {
+        border-radius: 10px;
+    }
+
+    #password, #btnSign, #email {
+        border-radius: 5px;
+    }
+    .form-control {
+        border-radius: 5px;
+    }
+</style>
+<script src="/scripts/jquery.validate.min.js"></script>
+<script src="/scripts/jquery.validate.unobtrusive.min.js"></script>
+<div class="login-box">
+    <div class="login-logo">
+        <img src="" alt="" />
+        <a href="#"><b>@ViewBag.Name</b></a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+        <form action="/account/login" method="post">
+            @Html.Raw(ViewBag.Message)
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(model => model.Email, new {@class = "form-control", placeholder = "UserName", @required = "required"})
+                @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(model => model.Password, new {@class = "form-control", placeholder = "Password", @required = "required", type = "password", })
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    @*<div class="checkbox icheck">
+                        <label>
+                            <input name="remember" type="checkbox"> Remember Me
+                        </label>
+                    </div>*@
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" id="btnSign" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+        @*<a href="/account/forgotpassword">I forgot my password</a>*@<br>
+    </div>
+    <!-- /.login-box-body -->
+</div>

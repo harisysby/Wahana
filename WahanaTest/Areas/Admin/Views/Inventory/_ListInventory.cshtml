@@ -1,0 +1,32 @@
+﻿<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            List Inventory
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/admin/inventory"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">List Inventory</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        @if (ViewBag.IsAdd == true)
+	                    {
+                            <button type="button" id="btnCreate" class="btn btn-primary"><span class="bold fa fa-plus"></span>&nbsp;&nbsp;Create New</button>
+	                    }   
+                        <hr />
+                        <table class="table table-bordered table-striped table-responsive table-hover" id="tbInventory"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+

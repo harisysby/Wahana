@@ -1,0 +1,406 @@
+﻿@using Penjualan.Areas.Admin.Models
+@{
+    ViewBag.Title = "LIST TRANSAKSI";
+}
+<style>
+    .modal {
+        text-align: center;
+        padding: 0 !important;
+    }
+
+        .modal:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+            margin-right: -4px;
+        }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+</style>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Transaksi
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Transaksi</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div id="tablegrid">
+            @Html.Partial("_ListTransaksi")
+        </div>
+    </section>
+</div>
+
+<div class="modal fade" id="_popUp" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content panel-primary">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title" id="_title"></h2>
+            </div>
+            <div class="modal-body">
+                @*<h4 style="color:red;" class="hidden" id="_delConfirm">Are your sure delete this data?</h4>*@
+                <div class="form-horizontal">
+                    <input id="_inputState" class="form-control hidden" />
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">No Trans</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <input id="no_transaksi" class="form-control" autofocus />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Tanggal</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <input id="tanggal" class="form-control _tgl" type="text"/>
+                        </div>
+                        @*<div class="input-group date" id="tanggal">
+                            <input type="text" class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>*@
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Total</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <input id="total" class="form-control" readonly/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="_saveBtn" class="btn btn-primary" onclick="return ProsesData()" style="width:100px">Simpan</button>&nbsp;
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="width:100px">Kembali</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script>
+        $(document).ready(function () {
+            DataTable();
+            $('._tgl').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                orientation: "bottom left",
+                todayHighlight: true
+            });
+            var menuItem = $('#left-sidebar-menu-transaksi');
+            menuItem.addClass('active');
+            var subMenuItem = menuItem.find('#transaksi-barang');
+            subMenuItem.addClass('active');
+        })
+        var no_transaksi;
+        var tanggal;
+        var total;
+
+        function ClearVar() {
+            no_transaksi = "";
+            tanggal = "";
+            total = "";
+        }
+        function Init() {
+            ClearVar();
+            $("#no_transaksi").val("");
+            $("#tanggal").val("");
+            $("#total").val("");
+        }
+
+        var ListVM;
+        function DataTable() {
+            ListVM = {
+                dt: null,
+
+                init: function () {
+                    dt = $('#tbTrans').DataTable({
+                        "serverSide": true,
+                        "processing": true,
+                        "autoWidth": false,
+                        "ajax": {
+                            "url": "@Url.Action("GetList", "Transaksi")",
+                            //"url": "/users",
+                            "type": 'POST',
+                    },
+                        "columns": [
+                            { "title": "No", "data": "null", "searchable": false, "width": "20px" },
+                            {
+                                data: "username", "width": "80x", title: "Action", "orderable": false, "render": function (data, type, row) {
+                                    return '<button id="btnEdit" class="btn btn-xs btn-primary" title="Edit" style="margin-right:5px"> <span class="fa fa-pencil"></span></button>' +
+                                            '<button id="btnDelete" class="btn btn-xs btn-danger" title="Delete" "style="margin-right:5px"><span class="fa fa-trash"></span></button>';
+                                }
+                            },
+                            { "title": "No Trans", "data": "no_transaksi", "searchable": true },
+                            {
+                                "title": "Tanggal", "data": "tanggal", "searchable": true,
+                                "render": function (value) {
+                                    if (value === null) return "";
+                                    return moment(value).format('DD/MM/YYYY');
+                                }
+                            },
+                            { "title": "Total", "data": "total", "searchable": true},
+                            { "title": "Created Date", "data": "created_at", "searchable": false, visible:false }
+
+                        ],
+                        columnDefs: [
+                             {
+                                 "targets": 0,
+                                 "searchable": false,
+                                 "orderable": false,
+                                 "data": null,
+                                 "title": 'No.',
+                                 "render": function (data, type, full, meta) {
+                                     return meta.settings._iDisplayStart + meta.row + 1;
+                                 }
+                             },
+                        ],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+                    });
+                    dt.on('order.dt search.dt', function () {
+                        dt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                            cell.innerHTML = i + 1;
+                        });
+                    }).draw();
+                }
+            }
+
+        // initialize the datatables
+            ListVM.init();
+        }
+
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "timeOut": "1000",
+            "preventDuplicates": true,
+            "closeButton": true,
+            "progressBar": true
+        }
+
+        function Add() {
+            Init();
+
+            $("#_popUp").modal({ backdrop: 'static' });
+            $("#_title").text("New Data");
+            $("#_inputState").val("Create");
+
+            $("#_saveBtn").removeClass("hidden");
+            $("#_saveBtn").html("Simpan");
+            $('#_popUp').on('shown.bs.modal', function () {
+                $('#no_transaksi').focus();
+                const today = new Date();
+                $('#tanggal').datepicker({
+                    useCurrent: false,
+                    autoclose: true,
+                    format: 'dd/mm/yyyy'
+                });
+                $('#tanggal').datepicker('setDate', today);
+                $('#total').val(0);
+            })
+        }
+
+        @*$(document).on('click', '#btnEdit', function (event) {
+            event.preventDefault();
+            var row = $(this).closest('tr');
+            var data = $('#tbUser').dataTable().fnGetData(row);
+            Init();
+
+            $("#_popUp").modal({ backdrop: 'static' });
+            $('#_title').text("Edit User");
+
+            $("#username").val(data.username);
+            $("#email").val(data.email);
+            $("#phone").val(data.phone);
+
+            $("#_inputState").val("Edit");
+
+            $("#username").attr("disabled", "disabled");
+            $("#email").removeAttr("disabled", "disabled");
+            $("#pass").addClass("hidden");
+            $("#phone").removeAttr("disabled", "disabled");
+
+            $("#_saveBtn").removeClass("hidden");
+            $("#_saveBtn").html("Update");
+            $('#_popUp').on('shown.bs.modal', function () {
+                $('#email').focus();
+            })
+        });
+
+        $(document).on('click', '#btnDelete', function (event) {
+            event.preventDefault();
+            var row = $(this).closest('tr');
+            var data = $('#tbUser').dataTable().fnGetData(row);
+            Init();
+
+            $("#_popUp").modal({ backdrop: 'static' });
+            $('#_title').text("Hapus User");
+
+            $("#username").val(data.username);
+            $("#email").val(data.email);
+            $("#phone").val(data.phone);
+
+            $("#_inputState").val("Delete");
+
+            $("#username").attr("disabled", "disabled");
+            $("#email").attr("disabled", "disabled");
+            $("#phone").attr("disabled", "disabled");
+            $("#pass").adClass("hidden");
+
+            $("#_saveBtn").removeClass("hidden");
+            $("#_saveBtn").html("Hapus");
+        });*@
+
+        function DeletePopUp(data) {
+            $("#_popUp").modal({ backdrop: 'static' });
+            $('#_title').text("Hapus Barang ?");
+
+            Init();
+            GetBarangById(data);
+            $("#_inputState").val("Delete");
+
+            $("#_id").attr("disabled", "disabled");
+            $("#_kode").attr("disabled", "disabled");
+            $("#_des").attr("disabled", "disabled");
+            $("#_tipe").attr("disabled", "disabled");
+            $("#_satuan").attr("disabled", "disabled");
+
+            $("#_saveBtn").removeClass("hidden");
+            $("#_saveBtn").html("Hapus");
+        }
+
+        function ProsesData() {
+            var InputState = $('#_inputState').val();
+            ClearVar();
+            no_transaksi = $("#no_transaksi").val();
+            tanggal = $('#tanggal').datepicker("getDate");
+            total = $('#total').val();
+            console.log(tanggal.toISOString());
+            if (InputState == "Create") {
+                if (no_transaksi == "") {
+                    toastr.warning("Isi No transaksi.")
+                    $("#no_transaksi").focus();
+                } else if (tanggal == "") {
+                    toastr.warning("Isi tanggal.")
+                    $("#tanggal").focus();
+                } else if (total == "") {
+                    toastr.warning("Isi total.")
+                } else {
+                    Create();
+                }
+            } else if (InputState == "Edit") {
+                ValidasiEdit();
+            } else if (InputState == "Delete") {
+                Delete();
+            }
+        }
+
+
+        function Create() {
+            var model = {
+                no_transaksi: no_transaksi,
+                tanggal: tanggal.toISOString(),
+                total: total
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Add", "Transaksi")',
+                data: {
+                    model : model
+                },
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        $("#_popUp").modal('hide');
+                        Init();
+                        $('#tbTrans').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.message);
+                        //$("#_popUp").modal('hide');
+                        //Init();
+                    }
+                },
+            });
+        }
+
+    @*function ValidasiEdit() {
+            if (username == "") {
+                toastr.warning("Isi Username.")
+                $("#username").focus();
+            } else if (email == "") {
+                toastr.warning("Isi email.")
+                $("#email").focus();
+            } else {
+                Edit();
+            }
+        }
+
+        function Edit() {
+            var model = {
+                username: username,
+                email: email,
+                password: password,
+                phone: phone
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Edit", "Users")',
+                data: {
+                    model : model
+                },
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        $("#_popUp").modal('hide');
+                        Init();
+                        $('#tbUser').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.message);
+                        $("#_popUp").modal('hide');
+                        Init();
+                    }
+                },
+            });
+        }
+
+        function Delete() {
+            if (username == "") {
+                toastr.warning("Tidak ada data yang dihapus.")
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete", "Users")',
+                    data: {
+                        Id: Id
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            $("#_popUp").modal('hide');
+                            Init();
+                            $('#tbBarang').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message);
+                            $("#_popUp").modal('hide');
+                            Init();
+                        }
+                    },
+                });
+            }
+        }*@
+
+
+</script>
+}

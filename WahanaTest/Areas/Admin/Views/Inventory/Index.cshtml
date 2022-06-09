@@ -1,0 +1,540 @@
+﻿@using AdvanceUMS.Areas.Admin.Models
+@{
+    //Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "LIST INVENTORY";
+    List<ComboBoxModel> Unit = (List<ComboBoxModel>)ViewData["Unit"];
+    List<ComboBoxModel> Brand = (List<ComboBoxModel>)ViewData["Brand"];
+    List<ComboBoxModel> ProductClass = (List<ComboBoxModel>)ViewData["ProductClass"];
+    List<ComboBoxModel> Vendor = (List<ComboBoxModel>)ViewData["Vendor"];
+    List<ComboBoxModel> Buyer = (List<ComboBoxModel>)ViewData["Buyer"];
+}
+
+
+<div id="MainForm">
+    <div id="tablegrid">
+        @Html.Partial("_ListInventory")
+    </div>
+</div>
+
+<div class="modal fade" id="_popUp" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content panel-primary">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title" id="_title"></h2>
+            </div>
+            <div class="modal-body">
+                @*<h4 style="color:red;" class="hidden" id="_delConfirm">Are your sure delete this data?</h4>*@
+                <div class="form-horizontal">
+                    <div class="form-group hidden">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">id</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <input id="_inputState" class="form-control" />
+                            <input id="_id" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Kode Barang</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <input id="kodebarang" class="form-control" autofocus />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Nama Barang</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <input id="namabarang" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Unit</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <select id="unit" class="form-control select2" style="width:100%">
+                                <option value="">-- Pilih Unit --</option>
+                                @foreach (var item in Unit)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Product Class</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <select id="productclass" class="form-control select2" style="width:100%">
+                                <option value="">-- Pilih Product Class --</option>
+                                @foreach (var item in ProductClass)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Pemilik</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <input id="pemilik" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Jenis</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <input id="jenis" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Vendor</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <select id="vendor" class="form-control select2" style="width:100%">
+                                <option value="">-- Pilih Vendor --</option>
+                                @foreach (var item in Vendor)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Produsen</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <input id="produsen" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Buyer</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <select id="buyer" class="form-control select2" style="width:100%">
+                                <option value="">-- Pilih Buyer --</option>
+                                @foreach (var item in Buyer)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-md-4 control-label" style="text-align:left;">Brand</label>
+                        <label class="col-sm-1 col-md-1 control-label">:</label>
+                        <div class="col-sm-8 col-md-7">
+                            <select id="brand" class="form-control select2" style="width:100%">
+                                <option value="">-- Pilih Brand --</option>
+                                @foreach (var item in Brand)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="_saveBtn" class="btn btn-primary" onclick="return ProsesData()" style="width:100px">Simpan</button>&nbsp;
+                <button type="button" class="btn btn-primary" data-dismiss="modal" style="width:100px">Kembali</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+<script>
+        $(document).ready(function () {
+            DataTable();
+            $(".select2").select2();
+            var menuItem = $('#master');
+            menuItem.addClass('active');
+            var subMenuItem = menuItem.find('#master-inventory');
+            subMenuItem.addClass('active');
+        })
+        var Id = "";
+        var KodeBarang = "";
+        var NamaBarang = "";
+        var Unit = "";
+        var Jenis = "";
+        var ProductClass = "";
+        var Brand = "";
+        var Pemilik = "";
+        var Produsen = "";
+        var Vendor = "";
+        var Buyer = "";
+
+        function ClearVar() {
+            Id = "";
+            KodeBarang = "";
+            NamaBarang = "";
+            Unit = "";
+            Jenis = "";
+            ProductClass = "";
+            Brand = "";
+            Pemilik = "";
+            Produsen = "";
+            Vendor = "";
+            Buyer = "";
+        }
+        function Init() {
+            ClearVar();
+            $("#_id").val();
+            $("#kodebarang").val("");
+            $("#namabarang").val("");
+            $("#pemilik").val("");
+            $("#jenis").val("");
+            $("#produsen").val("");
+            $("#buyer").val("").trigger('change');
+            $("#unit").val("").trigger('change');
+            $("#productclass").val("").trigger('change');
+            $("#vendor").val("").trigger('change');
+            $("#brand").val("").trigger('change');
+        }
+
+        var ListVM;
+        function DataTable() {
+            ListVM = {
+                dt: null,
+
+                init: function () {
+                    dt = $('#tbInventory').DataTable({
+                        "serverSide": true,
+                        "processing": true,
+                        "autoWidth": false,
+                        "ajax": {
+                            "url": "@Url.Action("GetList", "Inventory")",
+                            "type": 'POST',
+                        //"url": "/Produksi/Get"
+                    },
+                        "columns": [
+                            { "title": "No", "data": null, "searchable": false, "width": "20px" },
+                            {
+                                data: null, "width": "70px", title: "Action", "orderable": false, "render": function (data, type, row) {
+                                    const btnEdit = '<button class="btn btn-xs btn-primary" title="Edit" id="btnEdit" style="margin-right:5px"> <span class="fa fa-pencil"></span></button>'
+                                    const btnDelete = '<button class="btn btn-xs btn-danger" title="Delete" id="btnDelete" style="margin-right:5px"><span class="fa fa-trash"></span></button>'
+                                    var btnFinal;
+                                    if (getBool('@ViewBag.IsEdit') === true && getBool('@ViewBag.IsDelete') === true) {
+                                        return btnEdit + btnDelete;
+                                    } else if (getBool('@ViewBag.IsEdit') === true && getBool('@ViewBag.IsDelete') === false) {
+                                        return btnEdit;
+                                    } else if (getBool('@ViewBag.IsEdit') === false && getBool('@ViewBag.IsDelete') === true) {
+                                        return btnDelete;
+                                    } else {
+                                        return 'No Access';
+                                    }
+                                }
+                            },
+                            { "title": "Inventory Id", "data": "InvtID", "searchable": true},
+                            { "title": "Inventory Name", "data": "Invt_Name", "searchable": true },
+                            { "title": "Unit ID", "data": "UnitID", "searchable": false, visible : false },
+                            { "title": "Unit", "data": "Unit", "searchable": true},
+                            { "title": "Product ID", "data": "Product_ClassID", "searchable": false, visible:false },
+                            { "title": "Tipe", "data": "Tipe", "searchable": true },
+                            { "title": "Brand ID", "data": "BrandID", "searchable": false, "visible": false },
+                            { "title": "Brand", "data": "Brand", "searchable": true},
+                            { "title": "Pemilik", "data": "Pemilik", "searchable": true},
+                            { "title": "VendorID", "data": "VendorID", "searchable": false, visible :false },
+                            { "title": "Vendor", "data": "VendorName", "searchable": true },
+                            //{ "title": "Produsen", "data": "Produsen", "searchable": true},
+                            //{ "title": "Buyer", "data": "Buyer", "searchable": true }
+
+                        ],
+                        columnDefs: [
+                        {
+                            "targets": 0,
+                            "searchable": false,
+                            "orderable": false,
+                            "data": null,
+                            "title": 'No.',
+                            "render": function (data, type, full, meta) {
+                                return meta.settings._iDisplayStart + meta.row + 1;
+                            }
+                        }],
+                        "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]]
+                    });
+                    dt.on('order.dt search.dt', function () {
+                        dt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                            cell.innerHTML = i + 1;
+                        });
+                    }).draw();
+                }
+            }
+
+        // initialize the datatables
+            ListVM.init();
+        }
+    function getBool(val) {
+        return !!JSON.parse(String(val).toLowerCase());
+    }
+        toastr.options = {
+            "positionClass": "toast-top-center",
+            "timeOut": "1000",
+            "preventDuplicates": true,
+            "closeButton": true,
+            "progressBar": true
+        }
+        $(document).on('click', '#btnCreate', function (event) {
+            Init();
+
+            $("#_popUp").modal({ backdrop: 'static' });
+            $("#_title").text("New Data");
+            $("#_inputState").val("Create");
+
+            $("#_id").attr("hidden");
+            $("#kodebarang").removeAttr("disabled");
+            $("#namabarang").removeAttr("disabled");
+            $("#unit").removeAttr("disabled");
+            $("#productclass").removeAttr("disabled");
+            $("#brand").removeAttr("disabled");
+            $("#vendor").removeAttr("disabled");
+            $("#pemilik").removeAttr("disabled");
+            $("#jenis").removeAttr("disabled");
+            $("#produsen").removeAttr("disabled");
+            $("#buyer").removeAttr("disabled");
+
+            $("#_saveBtn").removeClass("hidden");
+            $("#_saveBtn").html("Simpan");
+            $('#_popUp').on('shown.bs.modal', function () {
+                $('#kodebarang').focus();
+            })
+        })
+
+        $(document).on('click', '#btnEdit', function (event) {
+            Init();
+            var row = $(this).closest('tr');
+            var data = $('#tbInventory').dataTable().fnGetData(row);
+            $("#_popUp").modal({ backdrop: 'static' });
+            $('#_title').text("Edit Data");
+
+            GetBarangById(data.InvtID);
+
+            $("#_inputState").val("Edit");
+
+            $("#_id").attr("disabled", "disabled");
+            $("#kodebarang").attr("disabled", "disabled");
+            $("#namabarang").removeAttr("disabled", "disabled");
+            $("#unit").removeAttr("disabled", "disabled");
+            $("#productclass").removeAttr("disabled", "disabled");
+            $("#brand").removeAttr("disabled");
+            $("#vendor").removeAttr("disabled");
+            $("#pemilik").removeAttr("disabled");
+            $("#jenis").removeAttr("disabled");
+            $("#produsen").removeAttr("disabled");
+            $("#buyer").removeAttr("disabled");
+
+            $("#_saveBtn").removeClass("hidden");
+            $("#_saveBtn").html("Update");
+            $('#_popUp').on('shown.bs.modal', function () {
+                $('#namabarang').focus();
+            })
+        })
+
+
+
+        $(document).on('click', '#btnDelete', function (event) {
+            $("#_popUp").modal({ backdrop: 'static' });
+            $('#_title').text("Hapus Data ?");
+            var row = $(this).closest('tr');
+            var data = $('#tbInventory').dataTable().fnGetData(row);
+            Init();
+            GetBarangById(data.InvtID);
+            $("#_inputState").val("Delete");
+
+            $("#kodebarang").attr("disabled", "disabled");
+            $("#namabarang").attr("disabled", "disabled");
+            $("#unit").attr("disabled", "disabled");
+            $("#productclass").attr("disabled", "disabled");
+            $("#brand").attr("disabled", "disabled");
+            $("#vendor").attr("disabled", "disabled");
+            $("#pemilik").attr("disabled", "disabled");
+            $("#jenis").attr("disabled", "disabled");
+            $("#produsen").attr("disabled", "disabled");
+            $("#buyer").attr("disabled", "disabled");
+
+            $("#_saveBtn").attr("hidden");
+            $("#_saveBtn").html("Hapus");
+        })
+
+        function ProsesData() {
+            var InputState = $('#_inputState').val();
+            ClearVar();
+            Id = $("#_id").val();
+            KodeBarang = $("#kodebarang").val();
+            NamaBarang = $('#namabarang').val();
+            Unit = $('#unit').val();
+            ProductClass = $('#productclass').val();
+            Brand = $('#brand').val();
+            Pemilik = $('#pemilik').val();
+            Jenis = $('#jenis').val() == null ? "" : $('#jenis').val();
+            Vendor = $('#vendor').val();
+            Produsen = $('#produsen').val() == null ? "" : $('#produsen').val();
+            Buyer = $('#buyer').val();
+            let Hasil = ValidasiInput();
+            if(Hasil){
+                if (InputState == "Create") {
+                    Create();
+                } else if (InputState == "Edit") {
+                    Edit()
+                } else if (InputState == "Delete") {
+                    Delete();
+                }
+            }
+
+        }
+
+        function ValidasiInput() {
+            if (KodeBarang == "") {
+                toastr.error("Kode Barang tidak boleh kosong.")
+                $("#kodebarang").focus();
+                return false;
+            } else if (NamaBarang == "") {
+                toastr.error("Nama Barang tidak boleh kosong.")
+                $("#namabarang").focus();
+                return false;
+            } else if (Unit == "0") {
+                toastr.error("Pilih Unit.")
+            } else if (ProductClass == "0") {
+                toastr.error("Pilih Product Class.")
+                return false;
+            } else if (Pemilik == "") {
+                toastr.error("Pemilik tidak boleh kosong.")
+                $("#pemilik").focus();
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function Create() {
+            var model = {
+                InvtID: KodeBarang,
+                Invt_Name: NamaBarang,
+                UnitID: Unit,
+                Product_ClassID: ProductClass,
+                BrandID: Brand,
+                Pemilik: Pemilik,
+                Jenis: Jenis,
+                VendorID: Vendor,
+                Produsen: Produsen,
+                Buyer: Buyer
+            }
+            console.log(model);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "Inventory")',
+                data: {
+                    model : model
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.success) {
+                        toastr.success(data.message);
+                        $("#_popUp").modal('hide');
+                        Init();
+                        $('#tbInventory').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.message);
+                        $("#_popUp").modal('hide');
+                        Init();
+                    }
+                },
+            });
+        }
+
+        function Edit() {
+            var model = {
+                InvtID: KodeBarang,
+                Invt_Name: NamaBarang,
+                UnitID: Unit,
+                Product_ClassID: ProductClass,
+                BrandID: Brand,
+                Pemilik: Pemilik,
+                Jenis: Jenis,
+                VendorID: Vendor,
+                Produsen: Produsen,
+                Buyer: Buyer
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Edit", "Inventory")',
+                data: {
+                    model : model
+                },
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        $("#_popUp").modal('hide');
+                        Init();
+                        $('#tbInventory').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(data.message);
+                        $("#_popUp").modal('hide');
+                        Init();
+                    }
+                },
+            });
+        }
+
+        function Delete() {
+            if (KodeBarang == "") {
+                toastr.warning("Tidak ada data yang dihapus.")
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete", "Inventory")',
+                    data: {
+                        InvtId: KodeBarang
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            toastr.success(data.message);
+                            $("#_popUp").modal('hide');
+                            Init();
+                            $('#tbInventory').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message);
+                            $("#_popUp").modal('hide');
+                            Init();
+                        }
+                    },
+                });
+            }
+        }
+        function GetBarangById(Id) {
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetInventoryById", "Inventory")',
+                data: {
+                    InvtID: Id
+                },
+                success: function (result) {
+                    if (result.length > 0) {
+                        $("#kodebarang").val(result[0].InvtID);
+                        $("#namabarang").val(result[0].Invt_Name);
+                        $("#unit").val(result[0].UnitID).trigger('change');
+                        $("#productclass").val(result[0].Product_ClassID).trigger('change');
+                        $("#vendor").val(result[0].VendorID).trigger('change');
+                        $("#brand").val(result[0].BrandID).trigger('change');
+                        $("#pemilik").val(result[0].Pemilik);
+                        $("#jenis").val(result[0].Jenis);
+                        $("#produsen").val(result[0].Produsen);
+                        $("#buyer").val(result[0].Buyer).trigger('change');
+                        //$("#Add_Tgl_Produksi").val(convertJsonDateToShortDate(result[0].Tgl_Produksi));
+                        //$("#Add_WONo").val(result[0].WONo).trigger('change');
+                    }
+                },
+            });
+        }
+
+</script>
+}
+
+
+
+
