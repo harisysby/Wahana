@@ -1052,14 +1052,12 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BarangController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
-    <Compile Include="Areas\Admin\Controllers\InventoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\NotAccessController.cs" />
     <Compile Include="Areas\Admin\Controllers\SatuanController.cs" />
     <Compile Include="Areas\Admin\Controllers\TransaksiController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Admin\Models\Barang.cs" />
     <Compile Include="Areas\Admin\Models\ComboBoxModel.cs" />
-    <Compile Include="Areas\Admin\Models\InventoryModel.cs" />
     <Compile Include="Areas\Admin\Models\Login.cs" />
     <Compile Include="Areas\Admin\Models\Satuan.cs" />
     <Compile Include="Areas\Admin\Models\Setting.cs" />
@@ -1079,12 +1077,10 @@
     <Compile Include="Service\GlobalService.cs" />
     <Compile Include="Service\Interface\IBarang.cs" />
     <Compile Include="Service\Interface\IGlobal.cs" />
-    <Compile Include="Service\Interface\IInventory.cs" />
     <Compile Include="Service\Interface\ISatuan.cs" />
     <Compile Include="Service\Interface\ISetting.cs" />
     <Compile Include="Service\Interface\ITransaksi.cs" />
     <Compile Include="Service\Interface\IUsers.cs" />
-    <Compile Include="Service\InventoryService.cs" />
     <Compile Include="Service\SatuanService.cs" />
     <Compile Include="Service\SetttingService.cs" />
     <Compile Include="Service\TransaksiService.cs" />
