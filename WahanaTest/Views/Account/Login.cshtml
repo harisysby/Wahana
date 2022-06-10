@@ -39,8 +39,8 @@
         <form action="/account/login" method="post">
             @Html.Raw(ViewBag.Message)
             <div class="form-group has-feedback">
-                @Html.TextBoxFor(model => model.Email, new {@class = "form-control", placeholder = "UserName", @required = "required"})
-                @Html.ValidationMessageFor(model => model.Email, "", new {@class = "text-danger"})
+                @Html.TextBoxFor(model => model.Username, new {@class = "form-control", placeholder = "UserName", @required = "required"})
+                @Html.ValidationMessageFor(model => model.Username, "", new {@class = "text-danger"})
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

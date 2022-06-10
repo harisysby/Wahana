@@ -50,8 +50,8 @@ namespace Penjualan.Controllers
             //var password = dHelper.Encrypt(objLogin.Password);
             //var userLogin = db.tblUsers.FirstOrDefault(s =>
             //    s.Email == objLogin.Email || s.UserName == objLogin.Email && s.Password == password);
-            var userLogin = await user.login(objLogin.Email, objLogin.Password);
-            if (userLogin != null)
+            var userLogin = await user.login(objLogin.Username, objLogin.Password);
+            if (userLogin.id != 0)
             {
                 cookie1.Values.Add("username", userLogin.username.ToString());
                 cookie1.Expires = DateTime.Now.AddHours(5);

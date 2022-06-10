@@ -12,8 +12,8 @@ namespace Penjualan.Helper
 
     public class LoginViewModel
     {
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        public string Email { get; set; }
+        [EmailAddress(ErrorMessage = "Invalid Username")]
+        public string Username { get; set; }
         public string Password { get; set; }
     }
 
